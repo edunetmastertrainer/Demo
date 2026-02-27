@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gopal Gupta | Technocrat & Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --cream: #f5f0e8;
+    --gold: #c9943a;
+    --gold-light: #e8c47a;
+    --rust: #b85c38;
+    --sage: #3d5a4a;
+    --muted: #6b6460;
+    --card-bg: #ffffff;
+    --border: #e0d8cc;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -.02em;
+  }
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color .2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 100%;
+    height: 1.5px;
+    background: var(--gold);
+    transition: right .25s ease;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { right: 0; }
+
+  .nav-cta {
+    background: var(--ink);
+    color: var(--cream) !important;
+    padding: .5rem 1.4rem;
+    border-radius: 2px;
+    transition: background .2s !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--ink) !important; }
+  .nav-cta::after { display: none !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--ink); transition: .3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 5% 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(8rem, 20vw, 22rem);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,148,58,.12);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+    letter-spacing: -.05em;
+  }
+
+  .hero-text { position: relative; z-index: 1; }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: .3rem .8rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp .6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    animation: fadeUp .6s .1s ease both;
+  }
+  .hero-title em { font-style: normal; color: var(--gold); }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-bottom: 2.5rem;
+    animation: fadeUp .6s .3s ease both;
+  }
+  .badge {
+    font-size: .75rem;
+    padding: .35rem .9rem;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 1px;
+    letter-spacing: .04em;
+  }
+  .badge.light {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp .6s .4s ease both;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    padding: .85rem 2.2rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .9rem;
+    letter-spacing: .04em;
+    transition: background .2s, transform .2s;
+    border-radius: 2px;
+  }
+  .btn-primary:hover { background: var(--rust); color: #fff; transform: translateY(-2px); }
+
+  .btn-outline {
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    padding: .85rem 2.2rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .9rem;
+    letter-spacing: .04em;
+    transition: background .2s, color .2s, transform .2s;
+    border-radius: 2px;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--cream); transform: translateY(-2px); }
+
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    animation: fadeIn .8s .3s ease both;
+  }
+
+  .hero-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 8px 8px 0 var(--gold);
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -8px; left: -8px;
+    width: 40px; height: 40px;
+    border-top: 2px solid var(--gold);
+    border-left: 2px solid var(--gold);
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; right: -8px;
+    width: 40px; height: 40px;
+    border-bottom: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .stat h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat p { font-size: .78rem; color: var(--muted); margin-top: .3rem; letter-spacing: .04em; }
+
+  .skill-list { list-style: none; }
+  .skill-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .85rem;
+  }
+  .skill-list li:last-child { border-bottom: none; }
+  .skill-dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 5%; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--border);
+    line-height: 1;
+  }
+  .section-title-group h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-weight: 700;
+  }
+  .section-title-group p {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-top: .3rem;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: .8rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  #about .section-num { -webkit-text-stroke-color: rgba(255,255,255,.1); }
+  #about .section-title-group h2 { color: var(--cream); }
+  #about .section-title-group p { color: rgba(245,240,232,.5); }
+  #about .section-line { background: rgba(255,255,255,.1); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(245,240,232,.8);
+    margin-bottom: 1.2rem;
+  }
+  .about-text p strong { color: var(--gold-light); }
+
+  .about-facts { display: flex; flex-direction: column; gap: 1.2rem; }
+  .fact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.2rem;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    transition: border-color .2s, background .2s;
+  }
+  .fact-item:hover { border-color: var(--gold); background: rgba(201,148,58,.05); }
+  .fact-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: .1rem; }
+  .fact-item h4 { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: .3rem; }
+  .fact-item p { font-size: .9rem; color: rgba(245,240,232,.7); line-height: 1.5; }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--cream); }
+
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1.5px;
+    background: var(--border);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .5s, transform .5s;
+  }
+  .tl-item.visible { opacity: 1; transform: translateX(0); }
+
+  .tl-dot {
+    position: absolute;
+    left: -2.45rem;
+    top: 8px;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border: 2px solid var(--cream);
+    border-radius: 50%;
+  }
+
+  .tl-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 1.5rem 1.8rem;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .tl-card:hover { box-shadow: 4px 4px 0 var(--gold); transform: translateX(4px); }
+
+  .tl-period {
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: .5rem;
+  }
+  .tl-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: .2rem;
+  }
+  .tl-company {
+    font-size: .88rem;
+    color: var(--muted);
+    margin-bottom: .6rem;
+  }
+  .tl-location {
+    font-size: .78rem;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: #faf7f2; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    transition: box-shadow .2s, transform .2s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .4s, transform .4s, box-shadow .2s;
+  }
+  .skill-card.visible { opacity: 1; transform: translateY(0); }
+  .skill-card:hover { box-shadow: 4px 4px 0 var(--gold); }
+
+  .skill-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .skill-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: .4rem; }
+  .skill-card p { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--cream); }
+
+  .edu-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    max-width: 680px;
+    transition: box-shadow .2s;
+  }
+  .edu-card:hover { box-shadow: 4px 4px 0 var(--gold); }
+
+  .edu-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: .2rem;
+  }
+  .edu-info h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: .3rem; }
+  .edu-info p { font-size: .9rem; color: var(--muted); }
+
+  /* ── CERTS ── */
+  #certifications { background: #faf7f2; }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .cert-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+    font-size: .88rem;
+    transition: background .2s, border-color .2s;
+    opacity: 0;
+    transform: scale(.95);
+    transition: opacity .4s, transform .4s, background .2s, border-color .2s;
+  }
+  .cert-item.visible { opacity: 1; transform: scale(1); }
+  .cert-item:hover { border-color: var(--gold); background: #fffdf8; }
+  .cert-check { color: var(--sage); font-size: 1rem; flex-shrink: 0; }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+  }
+  #contact .section-header { justify-content: center; }
+  #contact .section-num { -webkit-text-stroke-color: rgba(255,255,255,.1); }
+  #contact .section-title-group h2 { color: var(--cream); }
+  #contact .section-title-group p { color: rgba(245,240,232,.5); }
+  #contact .section-line { display: none; }
+
+  .contact-tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.8rem);
+    font-weight: 700;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.25;
+  }
+  .contact-tagline em { font-style: normal; color: var(--gold-light); }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .9rem 2rem;
+    border: 1px solid rgba(255,255,255,.15);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: .9rem;
+    transition: border-color .2s, background .2s;
+    border-radius: 2px;
+  }
+  .contact-link:hover { border-color: var(--gold-light); background: rgba(201,148,58,.1); color: var(--gold-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080808;
+    color: rgba(245,240,232,.4);
+    text-align: center;
+    padding: 1.8rem 5%;
+    font-size: .8rem;
+    letter-spacing: .05em;
+  }
+  footer span { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+    .hero-visual { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid var(--border); padding: 1.5rem 5%; gap: 1rem; }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; }
+    .section-header { flex-wrap: wrap; }
+    .section-num { font-size: 3rem; }
+    .edu-card { flex-direction: column; gap: .8rem; }
+    .hero-badges { gap: .4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-logo">GG<span>.</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-text">TRAINER</div>
+  <div class="hero-text">
+    <div class="hero-tag">Technocrat &amp; Mentor · 17+ Years</div>
+    <h1 class="hero-title">Gopal<br><em>Gupta</em></h1>
+    <p class="hero-sub">Empowering engineers and professionals through technical education, project mentorship, and full-stack development expertise.</p>
+    <div class="hero-badges">
+      <span class="badge">Python</span>
+      <span class="badge">Data Analytics</span>
+      <span class="badge">MERN Stack</span>
+      <span class="badge">Django</span>
+      <span class="badge light">Machine Learning</span>
+      <span class="badge light">Core Java</span>
+      <span class="badge light">SQL</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#experience" class="btn-primary">View Experience</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="stat-grid">
+        <div class="stat"><h3>17+</h3><p>Years of Experience</p></div>
+        <div class="stat"><h3>∞</h3><p>Students Mentored</p></div>
+        <div class="stat"><h3>5+</h3><p>Certifications</p></div>
+        <div class="stat"><h3>4</h3><p>Organisations</p></div>
+      </div>
+      <ul class="skill-list">
+        <li>Senior Trainer — Edunet Foundation <div class="skill-dot"></div></li>
+        <li>Full Stack Python · Django <div class="skill-dot"></div></li>
+        <li>Data Analytics &amp; ML <div class="skill-dot"></div></li>
+        <li>Corporate &amp; Master Trainer <div class="skill-dot"></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-group">
+      <h2>About Me</h2>
+      <p>The person behind the expertise</p>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I am a <strong>Technocrat, Trainer, and Mentor</strong> with over <strong>17 years</strong> of experience in providing technical education and shaping the careers of engineering students across India.</p>
+      <p>My journey spans academia, corporate training, and software architecture — from over <strong>16 years as an Assistant Professor</strong> at ABES Engineering College to serving as <strong>Lead Technical Architect</strong> at DataRitz Technologies and now as <strong>Sr. Master Trainer</strong> at Edunet Foundation.</p>
+      <p>I specialise in bridging the gap between theoretical knowledge and industry-ready skills, focusing on <strong>Python, Data Analytics, MERN Stack, and Full Stack Python</strong> development. My passion lies in problem-solving and cultivating the next generation of technical leaders.</p>
+    </div>
+    <div class="about-facts">
+      <div class="fact-item">
+        <div class="fact-icon">📍</div>
+        <div>
+          <h4>Location</h4>
+          <p>Ghaziabad, Uttar Pradesh, India</p>
+        </div>
+      </div>
+      <div class="fact-item">
+        <div class="fact-icon">🎓</div>
+        <div>
+          <h4>Education</h4>
+          <p>B.Tech in Computer Science, UPTU (2001–2005)</p>
+        </div>
+      </div>
+      <div class="fact-item">
+        <div class="fact-icon">✉️</div>
+        <div>
+          <h4>Email</h4>
+          <p>gopalmiet@gmail.com</p>
+        </div>
+      </div>
+      <div class="fact-item">
+        <div class="fact-icon">🔗</div>
+        <div>
+          <h4>LinkedIn</h4>
+          <p>linkedin.com/in/gopalgupta-9099a8143</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title-group">
+      <h2>Experience</h2>
+      <p>A career built on teaching and building</p>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-period">January 2026 – Present</div>
+        <div class="tl-role">Sr. Master Trainer</div>
+        <div class="tl-company">Edunet Foundation</div>
+        <div class="tl-location">📌 Gurugram, Haryana, India</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-period">September 2024 – January 2026 · 1 yr 5 mos</div>
+        <div class="tl-role">Master Trainer</div>
+        <div class="tl-company">Edunet Foundation</div>
+        <div class="tl-location">📌 Gurugram, Haryana, India</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-period">May 2022 – September 2024 · 2 yrs 5 mos</div>
+        <div class="tl-role">Department of Technical Training</div>
+        <div class="tl-company">ABESIT</div>
+        <div class="tl-location">📌 Ghaziabad, Uttar Pradesh, India</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-period">January 2020 – January 2022 · 2 yrs 1 mo</div>
+        <div class="tl-role">Lead Technical Architect</div>
+        <div class="tl-company">DataRitz Technologies</div>
+        <div class="tl-location">📌 Ghaziabad, Uttar Pradesh, India</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-period">January 2006 – March 2022 · 16 yrs 3 mos</div>
+        <div class="tl-role">Assistant Professor</div>
+        <div class="tl-company">ABES Engineering College</div>
+        <div class="tl-location">📌 Ghaziabad, Uttar Pradesh, India</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title-group">
+      <h2>Skills</h2>
+      <p>Technologies I teach and build with</p>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🐍</div>
+      <h3>Python & Django</h3>
+      <p>Full Stack Python development, Django frameworks, scripting, and automation for modern web applications.</p>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <h3>Data Analytics & ML</h3>
+      <p>Machine learning concepts, data analysis pipelines, and statistical modeling with Python libraries.</p>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <h3>MERN Stack</h3>
+      <p>MongoDB, Express.js, React, and Node.js for building scalable full-stack JavaScript applications.</p>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">☕</div>
+      <h3>Core Java</h3>
+      <p>Object-oriented programming, Java fundamentals, and enterprise-level application development.</p>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🗄️</div>
+      <h3>SQL & MongoDB</h3>
+      <p>Relational database design, complex queries, and NoSQL document modeling with MongoDB.</p>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🏫</div>
+      <h3>Corporate Training</h3>
+      <p>Curriculum design, mentoring engineering students, and delivering technical education at scale.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title-group">
+      <h2>Education</h2>
+      <p>Academic foundations</p>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-card">
+    <div class="edu-year">2001<br>–<br>2005</div>
+    <div class="edu-info">
+      <h3>Bachelor of Technology — Computer Science</h3>
+      <p>Uttar Pradesh Technical University (UPTU)</p>
+      <p style="margin-top:.5rem;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)">Ghaziabad, Uttar Pradesh, India</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certifications">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title-group">
+      <h2>Certifications</h2>
+      <p>Continuous learning credentials</p>
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-item"><span class="cert-check">✦</span> Python Basis</div>
+    <div class="cert-item"><span class="cert-check">✦</span> Fundamental of Python</div>
+    <div class="cert-item"><span class="cert-check">✦</span> MongoDB and the Document Model</div>
+    <div class="cert-item"><span class="cert-check">✦</span> Data Science Tools</div>
+    <div class="cert-item"><span class="cert-check">✦</span> MongoDB Data Modeling Intro</div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title-group">
+      <h2>Contact</h2>
+      <p>Let's connect and collaborate</p>
+    </div>
+  </div>
+  <p class="contact-tagline">Ready to learn, build, or<br><em>collaborate together?</em></p>
+  <div class="contact-links">
+    <a href="mailto:gopalmiet@gmail.com" class="contact-link">
+      ✉️ &nbsp; gopalmiet@gmail.com
+    </a>
+    <a href="https://www.linkedin.com/in/gopalgupta-9099a8143" target="_blank" class="contact-link">
+      🔗 &nbsp; LinkedIn Profile
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2025 <span>Gopal Gupta</span> · Ghaziabad, Uttar Pradesh, India · Crafted with passion for education</p>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.tl-item, .skill-card, .cert-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
